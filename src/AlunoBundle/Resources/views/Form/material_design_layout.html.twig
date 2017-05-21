@@ -1,0 +1,223 @@
+{% use "form_div_layout.html.twig" %}
+
+{# Widgets #}
+
+{% block form_widget_simple -%}
+	{% if type is not defined or type not in ['file', 'hidden'] %}
+		{%- set attr = attr|merge({class: (attr.class|default('') ~ ' form-control')|trim}) -%}
+	{% endif %}
+	{{- parent() -}}
+{%- endblock form_widget_simple %}
+
+{% block textarea_widget -%}
+	{% set attr = attr|merge({class: (attr.class|default('') ~ ' form-control textarea-autosize')|trim, rows: (attr.rows|default('') ~ '1')}) %}
+	{{- parent() -}}
+{%- endblock textarea_widget %}
+
+{% block wysiwyg_widget -%}
+	{% set attr = attr|merge({class: (attr.class|default('') ~ ' form-control wysiwyg')|trim, rows: (attr.rows|default('') ~ '1')}) %}
+    <textarea {{ block('widget_attributes') }}>{{ value }}</textarea>
+{%- endblock wysiwyg_widget %}
+
+{% block choice_widget_collapsed -%}
+    {% set attr = attr|merge({class: (attr.class|default('') ~ ' form-control')|trim}) %}
+    {{- parent() -}}
+{%- endblock %}
+
+{% block image_widget -%}
+	{%- set attr = attr|merge({class: (attr.class|default('') ~ ' form-control access-hide image-upload')|trim}) -%}
+	<div>
+		<input type="file" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+		<button type="button" class="btn brand btn-image-upload waves-attach waves-light" data-target="{{ id }}">ENVIAR IMAGEM</button>
+		<button type="button" class="btn image-delete waves-attach waves-dark" data-target="{{ id }}">REMOVER</button>
+		<input type="checkbox" class="check-image-delete access-hide" name="delete[{{ name }}]" data-target="{{ id }}" />
+	</div>
+{%- endblock image_widget %}
+
+{% block switch_widget -%}
+	{% set attr = attr|merge({class: (attr.class|default('') ~ ' access-hide')|trim}) %}
+	{%- set parent_label_class = parent_label_class|default(label_attr.class|default('')) -%}
+	<input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+	<span class="switch-toggle"></span>
+{%- endblock switch_widget %}
+
+{% block checkbox_widget -%}
+	{% set attr = attr|merge({class: (attr.class|default('') ~ ' access-hide')|trim}) %}
+	{%- set parent_label_class = parent_label_class|default(label_attr.class|default('')) -%}
+	{{ parent() }}
+	<span class="checkbox-circle"></span><span class="checkbox-circle-check"></span><span class="checkbox-circle-icon icon">done</span>
+{%- endblock checkbox_widget %}
+
+{% block radio_widget -%}
+	{% set attr = attr|merge({class: (attr.class|default('') ~ ' access-hide')|trim}) %}
+	{%- set parent_label_class = parent_label_class|default(label_attr.class|default('')) -%}
+	{{ parent() }}
+	<span class="radiobtn-circle"></span><span class="radiobtn-circle-check"></span>
+{%- endblock radio_widget %}
+
+{# Labels #}
+
+{% block form_label -%}
+	{%- set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' floating-label')|trim}) -%}
+	{{- parent() -}}
+{%- endblock form_label %}
+
+{% block image_label -%}
+	{%- set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ '')|trim}) -%}
+    {% if label is not same as(false) -%}
+        {% if not compound -%}
+            {% set label_attr = label_attr|merge({'for': id}) %}
+        {%- endif -%}
+        {% if required -%}
+            {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' required')|trim}) %}
+        {%- endif -%}
+        {% if label is empty -%}
+            {%- if label_format is not empty -%}
+                {% set label = label_format|replace({
+                    '%name%': name,
+                    '%id%': id,
+                }) %}
+            {%- else -%}
+                {% set label = name|humanize %}
+            {%- endif -%}
+        {%- endif -%}
+        <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>{{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}</label>
+    {%- endif -%}
+{%- endblock image_label %}
+
+{% block wysiwyg_label -%}
+	{%- set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ '')|trim}) -%}
+    {% if label is not same as(false) -%}
+        {% if not compound -%}
+            {% set label_attr = label_attr|merge({'for': id}) %}
+        {%- endif -%}
+        {% if required -%}
+            {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' required')|trim}) %}
+        {%- endif -%}
+        {% if label is empty -%}
+            {%- if label_format is not empty -%}
+                {% set label = label_format|replace({
+                    '%name%': name,
+                    '%id%': id,
+                }) %}
+            {%- else -%}
+                {% set label = name|humanize %}
+            {%- endif -%}
+        {%- endif -%}
+        <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>{{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}</label>
+    {%- endif -%}
+{%- endblock wysiwyg_label %}
+
+{% block switch_label -%}
+	{{- block('checkbox_radio_label') -}}
+{%- endblock switch_label %}
+
+{% block checkbox_label -%}
+	{{- block('checkbox_radio_label') -}}
+{%- endblock checkbox_label %}
+
+{% block radio_label -%}
+	{{- block('checkbox_radio_label') -}}
+{%- endblock radio_label %}
+
+{% block checkbox_radio_label %}
+	{% if required %}
+		{% set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' required')|trim}) %}
+	{% endif %}
+	{% if parent_label_class is defined %}
+		{% set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' ' ~ parent_label_class)|trim}) %}
+	{% endif %}
+	{% if label is not same as(false) and label is empty %}
+		{%- if label_format is not empty -%}
+			{% set label = label_format|replace({
+				'%name%': name,
+				'%id%': id,
+			}) %}
+		{%- else -%}
+			{% set label = name|humanize %}
+		{%- endif -%}
+	{% endif %}
+	<label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
+		{{- form_widget(form) -}} {{ label is not same as(false) ? (translation_domain is same as(false) ? label : label|trans({}, translation_domain)) -}}
+	</label>
+{% endblock checkbox_radio_label %}
+
+{# Rows #}
+
+{% block form_row -%}
+	<div class="form-group form-group-label{% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}">
+		{{- form_label(form) -}}
+		{{- form_widget(form) -}}
+		<div class="form-help">
+			{{- form_errors(form) -}}
+		</div>
+	</div>
+{%- endblock form_row %}
+
+{% block image_row -%}
+	<div class="{% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}">
+		{{- form_label(form) -}}
+		<div class="image-preview margin-bottom-xs {% if attr.imagem is empty %} access-hide{% endif %}" data-target="{{ id }}">
+			<img src="{{ asset(attr.imagem) }}" class="image" style="max-width: 100%" />
+		</div>
+		{{- form_widget(form) -}}
+		<div class="form-help">
+			{{- form_errors(form) -}}
+		</div>
+	</div>
+{%- endblock image_row %}
+
+{% block wysiwyg_row -%}
+	<div class="form-group{% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %} control-highlight">
+		{{- form_label(form) -}}
+		{{- form_widget(form) -}}
+		<div class="form-help">
+			{{- form_errors(form) -}}
+		</div>
+	</div>
+{%- endblock wysiwyg_row %}
+
+{% block switch_row -%}
+	<div class="form-group form-group-label">
+		<div class="checkbox switch">
+			{{- form_label(form) -}}
+			<div class="form-help">
+				{{- form_errors(form) -}}
+			</div>
+		</div>
+	</div>
+{%- endblock switch_row  %}
+
+{% block checkbox_row -%}
+	<div class="form-group form-group-label">
+		<div class="checkbox">
+			{{- form_label(form) -}}
+			<div class="form-help">
+				{{- form_errors(form) -}}
+			</div>
+		</div>
+	</div>
+{%- endblock checkbox_row %}
+
+{% block radio_row -%}
+	<div class="form-group form-group-label">
+		<div class="radiobtn">
+			{{- form_widget(form) -}}
+			<div class="form-help">
+				{{- form_errors(form) -}}
+			</div>
+		</div>
+	</div>
+{%- endblock radio_row %}
+
+{# Errors #}
+
+{% block form_errors -%}
+	{% if errors|length > 0 -%}
+		{%- for error in errors -%}
+			<span class="errors">
+				{{ error.message }}
+			</span>
+		{%- endfor -%}
+	{%- endif %}
+{%- endblock form_errors %}

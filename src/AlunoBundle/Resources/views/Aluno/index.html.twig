@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Alunos list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Datanascimento</th>
+                <th>Datacadastro</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for aluno in alunos %}
+            <tr>
+                <td><a href="{{ path('aluno_show', { 'id': aluno.id }) }}">{{ aluno.id }}</a></td>
+                <td>{{ aluno.nome }}</td>
+                <td>{{ aluno.email }}</td>
+                <td>{% if aluno.dataNascimento %}{{ aluno.dataNascimento|date('Y-m-d') }}{% endif %}</td>
+                <td>{% if aluno.dataCadastro %}{{ aluno.dataCadastro|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('aluno_show', { 'id': aluno.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('aluno_edit', { 'id': aluno.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('aluno_new') }}">Create a new aluno</a>
+        </li>
+    </ul>
+{% endblock %}

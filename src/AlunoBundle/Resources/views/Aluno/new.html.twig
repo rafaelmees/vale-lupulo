@@ -1,0 +1,221 @@
+{% extends 'AlunoBundle:Template:layout.html.twig' %}
+
+{% form_theme form 'AlunoBundle:Form:material_design_layout.html.twig' %}
+
+{% block main %}
+    <div class="parallax-container">
+        <div class="container padding-top-lg padding-bottom-lg" style="min-height: 300px; display: table;">
+            <div class="row" style="display: table-cell; vertical-align: middle;">
+                <div class="col-xx-12">
+                    <h2 class="margin-no text-white text-center">Se inscreva!</h2>
+                <p class="text-light text-white">
+                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.
+                </p>
+                </div>
+            </div>
+        </div>
+        <div class="parallax"><img src="{{ asset("arquivos/fundo.jpg") }}" /></div>
+    </div>
+
+    <div class="container padding-top-lg padding-bottom-lg">
+        <div class="row">
+            <div class="col-xx-12">
+                <h2 class="margin-no text-light text-center">Lorem Ipsum</h2>
+
+                {% for type, flash_messages in app.session.flashBag.all %}
+                    {% for flash_message in flash_messages %}
+                        <h4 class="margin-no text-light text-center" style="{% if type == 'success' %}color: green;{% endif %}{% if type == 'error' %}color: red;{% endif %}">
+                            {{ flash_message }}
+                        </h4>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+            <br>
+            <br>
+            <div class="col-sm-7">
+                <div class="row">
+                    {{ form_start(form) }}
+                        <div class="col-sm-6 col-xx-12">
+                            <div class="row">
+                                <div class="col-xx-12">
+                                    {{ form_row(form.nome) }}
+                                </div>
+                                <div class="col-xx-12">
+                                    {{ form_row(form.email) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-xx-12">
+                            <div class="row">
+                                <div class="col-sm-12 col-xx-6">
+                                    {{ form_row(form.american_pale_ale) }}
+                                </div>
+                                <div class="col-sm-12 col-xx-6">
+                                    {{ form_row(form.catarina_sour) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-xx-12">
+                            {{ form_row(form.cpf) }}
+                        </div>
+                        <div class="col-sm-4 col-xx-12">
+                            {{ form_row(form.telefone) }}
+                        </div>
+                        <div class="col-sm-4 col-xx-12">
+                            {{ form_row(form.dataNascimento) }}
+                        </div>
+                        <div class="col-sm-8 col-xx-6">
+                            {{ form_row(form.cep) }}
+                        </div>
+                        <div class="col-sm-4 col-xx-6">
+                            <div class="form-group form-group-label">
+                                <a href="http://www.buscacep.correios.com.br/sistemas/buscacep/" class="btn btn-block flat accent waves-attach" target="blank">
+                                    Não sei meu CEP
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-sm-8 col-xx-12">
+                            {{ form_row(form.rua) }}
+                        </div>
+                        <div class="col-sm-4 col-xx-12">
+                            {{ form_row(form.numero) }}
+                        </div>
+                        <div class="col-sm-4 col-xx-12">
+                            {{ form_row(form.bairro) }}
+                        </div>
+                        <div class="col-sm-4 col-xx-12">
+                            {{ form_row(form.estado) }}
+                        </div>
+                        <div class="col-sm-4 col-xx-12">
+                            {{ form_row(form.cidade) }}
+                        </div>
+                        <div class="col-xx-12">
+                            {{ form_row(form.complemento) }}
+                        </div>
+                        <div class="col-sm-4 col-xx-12">
+                            <button type="submit" class="btn accent btn-block waves-attach waves-light">
+                                ENVIAR
+                            </button>
+                        </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+            <div class="col-sm-5">
+                <img class="img-responsive" src="{{ asset("arquivos/logo2.png") }}" alt="Concurso Cerveja Caseira 2017">
+                <p class="text-light">
+                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div id="map" style=""></div>
+    <script type="text/javascript">
+        function initMap() {
+            var styles = [
+                {
+                    featureType: 'landscape',
+                    elementType: 'all',
+                    stylers: [
+                        { hue: '#e0e2e7' },
+                        { saturation: -53 },
+                        { lightness: 2 },
+                        { visibility: 'on' }
+                    ]
+                },{
+                    featureType: 'road',
+                    elementType: 'labels',
+                    stylers: [
+                        { hue: '#cacbd0' },
+                        { saturation: -94 },
+                        { lightness: 46 },
+                        { visibility: 'on' }
+                    ]
+                },{
+                    featureType: 'poi',
+                    elementType: 'geometry',
+                    stylers: [
+                        { hue: '#dcdfe4' },
+                        { saturation: -70 },
+                        { lightness: 45 },
+                        { visibility: 'simplified' }
+                    ]
+                },{
+                    featureType: 'road.arterial',
+                    elementType: 'geometry',
+                    stylers: [
+                        { hue: '#babfc5' },
+                        { saturation: -91 },
+                        { lightness: -2 },
+                        { visibility: 'simplified' }
+                    ]
+                },{
+                    featureType: 'road.local',
+                    elementType: 'geometry',
+                    stylers: [
+                        { hue: '#FFFFFF' },
+                        { saturation: -100 },
+                        { lightness: 100 },
+                        { visibility: 'simplified' }
+                    ]
+                },{
+                    featureType: 'road.highway',
+                    elementType: 'geometry',
+                    stylers: [
+                        { hue: '#babfc5' },
+                        { saturation: -91 },
+                        { lightness: 31 },
+                        { visibility: 'simplified' }
+                    ]
+                },{
+                    featureType: 'water',
+                    elementType: 'all',
+                    stylers: [
+                        { hue: '#d9dce1' },
+                        { saturation: -74 },
+                        { lightness: 44 },
+                        { visibility: 'on' }
+                    ]
+                },{
+                    featureType: 'transit',
+                    elementType: 'all',
+                    stylers: [
+                        { hue: '#222222' },
+                        { saturation: 0 },
+                        { lightness: -82 },
+                        { visibility: 'off' }
+                    ]
+                },{
+                    featureType: 'poi.park',
+                    elementType: 'labels',
+                    stylers: [
+                        { hue: '#cacbd0' },
+                        { saturation: -86 },
+                        { lightness: 11 },
+                        { visibility: 'on' }
+                    ]
+                }
+                ];
+
+            var myLatlng = new google.maps.LatLng(-26.881903, -49.070644);
+
+            var mapOptions = {
+                    zoom: 16,
+                    mapTypeControl: false,
+                    streetViewControl: false,
+                    scrollwheel: false,
+                    center: myLatlng,
+                    styles: styles
+                };
+            var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+            var marker = new google.maps.Marker({
+                    map: map,
+                    position:myLatlng,
+                    icon: ''
+                });
+        }
+    </script>
+
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBsiHtt66eEBxZd1L9h_RSCwVexMKfYpyk&callback=initMap"></script>
+{% endblock %}

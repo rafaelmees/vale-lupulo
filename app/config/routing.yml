@@ -1,0 +1,4 @@
+aluno:
+    resource: "@AlunoBundle/Resources/config/routing.yml"
+    prefix:   /
+

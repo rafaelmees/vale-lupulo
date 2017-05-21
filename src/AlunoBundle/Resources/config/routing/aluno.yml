@@ -1,0 +1,29 @@
+aluno_index:
+    path: /
+    defaults:
+        _controller: "AlunoBundle:Aluno:index"
+    methods:  GET
+
+aluno_show:
+    path: /{id}/show
+    defaults:
+        _controller: "AlunoBundle:Aluno:show"
+    methods:  GET
+
+aluno_new:
+    path: /new
+    defaults:
+        _controller: "AlunoBundle:Aluno:new"
+    methods:  [GET, POST]
+
+aluno_edit:
+    path: /{id}/edit
+    defaults:
+        _controller: "AlunoBundle:Aluno:edit"
+    methods:  [GET, POST]
+
+aluno_delete:
+    path: /{id}/delete
+    defaults:
+        _controller: "AlunoBundle:Aluno:delete"
+    methods:  DELETE

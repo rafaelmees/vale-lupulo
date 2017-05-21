@@ -1,0 +1,5 @@
+aluno:
+    path: /
+    defaults:
+        _controller: "AlunoBundle:Aluno:new"
+    methods:  [GET, POST]
